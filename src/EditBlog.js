@@ -2,15 +2,20 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import BlogContext from "./BlogContext";
 
-const NewBlog = ({ addBlog }) => {
-	const INITIAL_DATA = {
-		title: "",
-		description: "",
-		body: "",
-	};
-	const [formData, setFormData] = useState(INITIAL_DATA);
+const EditBlog = ({ editBlog }) => {
+	const { postid } = useParams();
+	const blogList = useContext(BlogContext);
+	const blog = blogList.filter((blog) => blog.id === postid)[0];
+	const [formData, setFormData] = useState({
+		title: blog.title,
+		description: blog.description,
+		body: blog.body,
+	});
 	const history = useHistory();
 
 	const handleOnChange = (e) => {
@@ -26,10 +31,9 @@ const NewBlog = ({ addBlog }) => {
 
 	const handleOnSubmit = (e) => {
 		e.preventDefault();
-		const newBlog = addBlog(formData);
+		editBlog(postid, formData);
 		console.log(formData);
-		setFormData(INITIAL_DATA);
-		history.push(`/${newBlog.id}`);
+		history.push(`/${postid}`);
 	};
 	return (
 		<Form onSubmit={handleOnSubmit}>
@@ -66,7 +70,7 @@ const NewBlog = ({ addBlog }) => {
 				/>
 			</Form.Group>
 			<Button variant="primary" type="submit">
-				Submit
+				Edit Blog
 			</Button>
 			<Link to="/" variant="secondary" className="btn btn-secondary ml-3">
 				Cancel
@@ -75,4 +79,4 @@ const NewBlog = ({ addBlog }) => {
 	);
 };
 
-export default NewBlog;
+export default EditBlog;

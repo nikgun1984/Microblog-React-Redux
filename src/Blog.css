@@ -1,0 +1,11 @@
+.fas:hover {
+    color: red;
+    transform: scale(1.2);
+    cursor: pointer;
+
+}
+
+.fas:active {
+    color: black;
+    transform: scale(1.5);
+}
