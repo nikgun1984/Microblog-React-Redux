@@ -7,8 +7,10 @@ import { useContext } from "react";
 import BlogContext from "./BlogContext";
 import "./Blog.css";
 import { useHistory } from "react-router-dom";
+import NewComment from "./NewComment";
+import Comment from "./Comment";
 
-const Blog = ({ deleteBlog }) => {
+const Blog = ({ deleteBlog, addComment, deleteComment }) => {
 	const history = useHistory();
 	const blogList = useContext(BlogContext);
 	console.log(blogList);
@@ -46,13 +48,21 @@ const Blog = ({ deleteBlog }) => {
 						<p>{blog.body}</p>
 					</Col>
 				</Row>
+				<hr />
 				<Row>
 					<Col>
-						<p className="mt-5">
-							<em>
-								Go to <Link to="/">Home</Link> page
-							</em>
-						</p>
+						<h4>Comments</h4>
+						{blog.comments.map((comment) => (
+							<Comment
+								key={comment.id}
+								postId={postid}
+								blog={blog}
+								id={comment.id}
+								comment={comment.comment}
+								deleteComment={deleteComment}
+							/>
+						))}
+						<NewComment id={postid} blog={blog} addComment={addComment} />
 					</Col>
 				</Row>
 			</Container>

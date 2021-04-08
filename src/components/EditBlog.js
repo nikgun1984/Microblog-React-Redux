@@ -26,12 +26,11 @@ const EditBlog = ({ editBlog }) => {
 			...fData,
 			[name]: value,
 		}));
-		console.log(formData);
 	};
 
 	const handleOnSubmit = (e) => {
 		e.preventDefault();
-		editBlog(postid, formData);
+		editBlog(postid, blog.comments, formData);
 		console.log(formData);
 		history.push(`/${postid}`);
 	};

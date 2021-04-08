@@ -1,17 +1,19 @@
-import "./App.css";
+// bootstrap React
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Jumbotron from "react-bootstrap/Jumbotron";
-import { Switch, Route, Redirect } from "react-router-dom";
-import NewBlog from "./NewBlog";
-import EditBlog from "./EditBlog";
+// react libs
 import { useState } from "react";
 import { v4 as uuid } from "uuid";
-import Blog from "./Blog";
-import HomePage from "./HomePage";
-import BlogContext from "./BlogContext";
-import { Link } from "react-router-dom";
+import BlogContext from "./components/BlogContext";
+import { Link, Switch, Route, Redirect } from "react-router-dom";
+// components
+import HomePage from "./components/HomePage";
+import Blog from "./components/Blog";
+import NewBlog from "./components/NewBlog";
+import EditBlog from "./components/EditBlog";
+import "./App.css";
 
 const App = () => {
 	const [blogList, setBlogList] = useState([]);
@@ -19,6 +21,7 @@ const App = () => {
 	const addBlog = (blog) => {
 		const newBlog = {
 			...blog,
+			comments: [],
 			id: uuid(),
 		};
 		setBlogList((blogs) => [...blogs, newBlog]);
@@ -29,10 +32,34 @@ const App = () => {
 		setBlogList(blogList.filter((blog) => blog.id !== id));
 	};
 
-	const editBlog = (id, editedBlog) => {
+	const editBlog = (id, comments, editedBlog) => {
 		const blogs = blogList.filter((blog) => blog.id !== id);
-		setBlogList([...blogs, { id, ...editedBlog }]);
+		setBlogList([...blogs, { id, comments, ...editedBlog }]);
 	};
+
+	const addComment = (id, comment, blog) => {
+		console.log(comment);
+		const newComment = { id: uuid(), comment };
+		const blogs = blogList.filter((blog) => blog.id !== id);
+		setBlogList([
+			...blogs,
+			{ ...blog, comments: [...blog.comments, newComment] },
+		]);
+	};
+
+	const deleteComment = (id, blog, commentId) => {
+		const blogs = blogList.filter((blog) => blog.id !== id);
+		setBlogList([
+			...blogs,
+			{
+				...blog,
+				comments: [
+					...blog.comments.filter((comment) => comment.id !== commentId),
+				],
+			},
+		]);
+	};
+
 	return (
 		<BlogContext.Provider value={blogList}>
 			<div className="App">
@@ -59,7 +86,11 @@ const App = () => {
 									<EditBlog editBlog={editBlog} />
 								</Route>
 								<Route exact path="/:postid">
-									<Blog deleteBlog={deleteBlog} />
+									<Blog
+										deleteBlog={deleteBlog}
+										addComment={addComment}
+										deleteComment={deleteComment}
+									/>
 								</Route>
 								<Route exact path="/">
 									<HomePage />
