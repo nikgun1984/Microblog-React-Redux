@@ -5,9 +5,12 @@ import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import BlogContext from "./BlogContext";
+import { useSelector } from "react-redux";
 
 const HomePage = () => {
-	const blogList = useContext(BlogContext);
+	// const blogList = useContext(BlogContext);
+	const blogList = useSelector((store) => store.blogs);
+	console.log(blogList);
 	return (
 		<div>
 			<Container>
@@ -19,19 +22,15 @@ const HomePage = () => {
 						</p>
 						<Container>
 							<Row>
-								{blogList.map((blog) => (
+								{Object.keys(blogList).map((id) => (
 									<Col md={4}>
-										<Card
-											style={{ width: "18rem" }}
-											key={blog.id}
-											className="m-3"
-										>
+										<Card style={{ width: "18rem" }} key={id} className="m-3">
 											<Card.Body>
 												<Card.Title>
-													<Link to={`/${blog.id}`}>{blog.title}</Link>
+													<Link to={`/${id}`}>{blogList[id].title}</Link>
 												</Card.Title>
 												<Card.Subtitle className="mb-2 text-muted">
-													<i>{blog.description}</i>
+													<i>{blogList[id].description}</i>
 												</Card.Subtitle>
 											</Card.Body>
 										</Card>

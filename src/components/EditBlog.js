@@ -6,11 +6,15 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import BlogContext from "./BlogContext";
+import { useSelector } from "react-redux";
 
 const EditBlog = ({ editBlog }) => {
 	const { postid } = useParams();
-	const blogList = useContext(BlogContext);
-	const blog = blogList.filter((blog) => blog.id === postid)[0];
+	// const blogList = useContext(BlogContext);
+	const blogList = useSelector((store) => store.blogs);
+	console.log(blogList);
+	const blog = blogList[postid];
+	console.log(blog);
 	const [formData, setFormData] = useState({
 		title: blog.title,
 		description: blog.description,
@@ -20,8 +24,6 @@ const EditBlog = ({ editBlog }) => {
 
 	const handleOnChange = (e) => {
 		const { name, value } = e.target;
-		console.log(name);
-		console.log(value);
 		setFormData((fData) => ({
 			...fData,
 			[name]: value,
@@ -30,7 +32,7 @@ const EditBlog = ({ editBlog }) => {
 
 	const handleOnSubmit = (e) => {
 		e.preventDefault();
-		editBlog(postid, blog.comments, formData);
+		editBlog(postid, { comments: blog.comments, ...formData });
 		console.log(formData);
 		history.push(`/${postid}`);
 	};

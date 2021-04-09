@@ -5,16 +5,26 @@ import {
 	ADD_COMMENT,
 	DELETE_COMMENT,
 } from "./actionTypes";
-import { v4 as uuid } from "uuid";
 
-export function addBlog(blog) {
-	const newBlog = {
-		...blog,
-		comments: [],
-		id: uuid(),
-	};
+export function addBlog(id, newBlog) {
 	return {
 		type: ADD_BLOG,
 		blog: newBlog,
+	};
+}
+
+export function deleteBlog(id) {
+	console.log("ID is " + id);
+	return {
+		type: DELETE_BLOG,
+		id: id,
+	};
+}
+
+export function editBlog(editedBlog) {
+	console.log("Edited Blog: " + editedBlog);
+	return {
+		type: ADD_BLOG,
+		blog: editedBlog,
 	};
 }

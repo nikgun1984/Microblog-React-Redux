@@ -26,10 +26,10 @@ const NewBlog = ({ addBlog }) => {
 
 	const handleOnSubmit = (e) => {
 		e.preventDefault();
-		const newBlog = addBlog(formData);
+		const blogId = addBlog(formData);
 		console.log(formData);
 		setFormData(INITIAL_DATA);
-		history.push(`/${newBlog.id}`);
+		history.push(`/${blogId}`);
 	};
 	return (
 		<Form onSubmit={handleOnSubmit}>

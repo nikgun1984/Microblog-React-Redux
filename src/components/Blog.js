@@ -2,19 +2,17 @@ import { useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useContext } from "react";
-import BlogContext from "./BlogContext";
 import "./Blog.css";
 import { useHistory } from "react-router-dom";
 import NewComment from "./NewComment";
 import Comment from "./Comment";
+import { useSelector } from "react-redux";
 
 const Blog = ({ deleteBlog, addComment, deleteComment }) => {
 	const history = useHistory();
-	const blogList = useContext(BlogContext);
+	const blogList = useSelector((store) => store.blogs);
 	const { postid } = useParams();
-	const blog = blogList.filter((blog) => blog.id === postid)[0];
-
+	const blog = blogList[postid];
 	const handleClickEdit = (e) => {
 		e.preventDefault();
 		history.push(`/${postid}/edit`);

@@ -9,11 +9,32 @@ const INITIAL_STATE = { blogs: {} };
 export default function posts(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case ADD_BLOG:
-			const { id } = action.blog;
-			delete action.blog.id;
+			console.log(action.blog);
 			return {
 				...state,
-				blogs: { ...state.blogs, [id]: { ...action.blog } },
+				blogs: { ...state.blogs, ...action.blog },
+			};
+		case DELETE_BLOG:
+			return {
+				...state,
+				blogs: {
+					...Object.keys(state.blogs)
+						.filter((id) => id !== action.id)
+						.reduce((obj, key) => {
+							return {
+								...obj,
+								[key]: state.blogs[key],
+							};
+						}, {}),
+				},
+			};
+		case EDIT_BLOG:
+			return {
+				...state,
+				blogs: {
+					...state.blogs,
+					...action.editedBlog,
+				},
 			};
 		default:
 			return state;
