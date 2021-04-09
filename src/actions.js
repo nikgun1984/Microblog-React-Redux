@@ -1,15 +1,9 @@
-import {
-	ADD_BLOG,
-	DELETE_BLOG,
-	EDIT_BLOG,
-	ADD_COMMENT,
-	DELETE_COMMENT,
-} from "./actionTypes";
+import { ADD_BLOG, DELETE_BLOG, DELETE_COMMENT } from "./actionTypes";
 
-export function addBlog(id, newBlog) {
+export function addBlog(blog) {
 	return {
 		type: ADD_BLOG,
-		blog: newBlog,
+		blog: blog,
 	};
 }
 
@@ -18,13 +12,5 @@ export function deleteBlog(id) {
 	return {
 		type: DELETE_BLOG,
 		id: id,
-	};
-}
-
-export function editBlog(editedBlog) {
-	console.log("Edited Blog: " + editedBlog);
-	return {
-		type: ADD_BLOG,
-		blog: editedBlog,
 	};
 }

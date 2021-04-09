@@ -48,13 +48,13 @@ const Blog = ({ deleteBlog, addComment, deleteComment }) => {
 				<Row>
 					<Col>
 						<h4>Comments</h4>
-						{blog.comments.map((comment) => (
+						{Object.keys(blog.comments).map((id) => (
 							<Comment
-								key={comment.id}
+								key={id}
 								postId={postid}
 								blog={blog}
-								id={comment.id}
-								comment={comment.comment}
+								id={id}
+								comment={blog.comments[id]}
 								deleteComment={deleteComment}
 							/>
 						))}

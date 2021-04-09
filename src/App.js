@@ -14,7 +14,7 @@ import NewBlog from "./components/NewBlog";
 import EditBlog from "./components/EditBlog";
 import "./App.css";
 import { useSelector, useDispatch } from "react-redux";
-import { addBlog, deleteBlog, editBlog } from "./actions";
+import { addBlog, deleteBlog } from "./actions";
 
 const App = () => {
 	const blogList = useSelector((store) => store.blogs);
@@ -24,10 +24,10 @@ const App = () => {
 		const newBlog = {
 			[id]: {
 				...blog,
-				comments: [],
+				comments: {},
 			},
 		};
-		dispatch(addBlog(id, newBlog));
+		dispatch(addBlog(newBlog));
 		return id;
 	};
 
@@ -41,17 +41,21 @@ const App = () => {
 				...blog,
 			},
 		};
-		dispatch(editBlog(editedBlog));
+		dispatch(addBlog(editedBlog));
 	};
 
-	const addComment = (id, comment, blog) => {
-		console.log(comment);
-		const newComment = { id: uuid(), comment };
-		const blogs = blogList.filter((blog) => blog.id !== id);
-		// setBlogList([
-		// 	...blogs,
-		// 	{ ...blog, comments: [...blog.comments, newComment] },
-		// ]);
+	const addNewComment = (postid, comment, blog) => {
+		const id = uuid();
+		const editedBlog = {
+			[postid]: {
+				...blog,
+				comments: {
+					...blog.comments,
+					[id]: comment,
+				},
+			},
+		};
+		dispatch(addBlog(editedBlog));
 	};
 
 	const deleteComment = (id, blog, commentId) => {
@@ -87,7 +91,7 @@ const App = () => {
 								<Route exact path="/:postid">
 									<Blog
 										deleteBlog={delBlog}
-										addComment={addComment}
+										addComment={addNewComment}
 										deleteComment={deleteComment}
 									/>
 								</Route>
