@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
 import { useContext } from "react";
 import BlogContext from "./BlogContext";
 import "./Blog.css";
@@ -13,7 +12,6 @@ import Comment from "./Comment";
 const Blog = ({ deleteBlog, addComment, deleteComment }) => {
 	const history = useHistory();
 	const blogList = useContext(BlogContext);
-	console.log(blogList);
 	const { postid } = useParams();
 	const blog = blogList.filter((blog) => blog.id === postid)[0];
 
